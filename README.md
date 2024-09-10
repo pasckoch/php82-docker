@@ -17,4 +17,6 @@ php82
 
 
 Components:
-Tarantool php client : https://github.com/tarantool-php/client
+        "tarantool/client": "^0.10.1",
+        "php-amqplib/php-amqplib": "^3.2"
+

@@ -1,6 +1,10 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Tarantool\Client\Client as TaranClient;
+use Tarantool\Client\Schema\Criteria;
+
 echo 'Is running ?';
 echo '<br/>';
 echo 'It is ok: 10.000.000.000.000.000.000.000.000.000$ to FR7614690000011005790401020';
@@ -44,9 +48,6 @@ echo '<br/><br/>';
 
 echo 'Is Tarantool running';
 
-use Tarantool\Client\Client as TaranClient;
-use Tarantool\Client\Schema\Criteria;
-
 $client = TaranClient::fromDsn('tcp://tarantool');
 $spaceName = 'example';
 
@@ -62,6 +63,17 @@ $space = $client->getSpace($spaceName);
 $space->insert([42, 500]);
 [[$id, $money]] = $space->select(Criteria::key([42]));
 var_dump([$id,$money]);
+
+echo '<br/><br/>';
+
+echo 'Is Rabbitmq running';
+
+$connection = new AMQPStreamConnection('rabbitmq313', 5672, 'guest', 'guest');
+$channel = $connection->channel();
+$channel->queue_declare('hello', false, false, false, false);
+echo '<br/>';
+echo " [*] Waiting for messages. To exit press CTRL+C\n";
+
 
 echo '<br/><br/>----------------------------------------------</br>';
 echo phpinfo();

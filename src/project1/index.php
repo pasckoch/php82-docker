@@ -1,1 +1,2 @@
-/var/www/html/php82-docker/src/index.php
+<?php
+require_once "../index.php";
