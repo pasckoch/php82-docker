@@ -1,22 +1,27 @@
+
+# PHP 8.2 Docker
+
+## hosts to declare
 /etc/hosts
 127.0.0.1   localhost php82.docker php82.project1.docker
 
-Commands:
-Build:
+## Commands
+### Build
 docker-composer up -d --build
-Start:
+### Start
 if already build: docker-composer up -d
-Stop
+### Stop
 docker-composer down
-Erase volumes
+### Erase volumes
 docker-composer down -v
 
-Routes :
+## Routes
 http://php82.docker:8080/
 http://php82.project1.docker:8080/
-RabbitMq http://php82.docker:15672 guest:guest
+RabbitMq http://php82.docker:15672  `guest:guest`
 
-php82
+## Architecture
+`php82
   |--docker-compose.yml
   |--.config/
   |    |--docker/
@@ -31,10 +36,9 @@ php82
   |    |--composer.lock
   |    |--vendor/
   |    |--project1/
-  |         |--index.php
+  |         |--index.php`
 
-
-Components:
-        "tarantool/client": "^0.10.1",
-        "php-amqplib/php-amqplib": "^3.2" //rabbitMq php client
+## Composer components
+`"tarantool/client": "^0.10.1",
+"php-amqplib/php-amqplib": "^3.2" //rabbitMq php client`
 
