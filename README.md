@@ -1,11 +1,8 @@
 
 # PHP 8.2 Docker
 
-## hosts to declare
-```
-/etc/hosts
+## hosts to declare in /etc/hosts
 127.0.0.1   localhost php82.docker php82.project1.docker
-```
 
 ## Commands
 ### Build
