@@ -16,9 +16,9 @@ docker-composer down
 docker-composer down -v
 
 ## Routes
-http://php82.docker:8080/
-http://php82.project1.docker:8080/
-RabbitMq http://php82.docker:15672  `guest:guest`
+http://php82.docker:8080/  
+http://php82.project1.docker:8080/  
+RabbitMq http://php82.docker:15672  `guest:guest`  
 
 ## Architecture
 `php82
