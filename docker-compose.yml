@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db106:
+    image: mariadb:10.6
+    restart: always
+    shm_size: 2gb
+    environment:
+      - MYSQL_ROOT_PASSWORD=maria106
+      - MYSQL_DATABASE=maria106
+      - MYSQL_USER=maria106
+      - MYSQL_PASSWORD=maria106
+    ports:
+      - '3306:3306'
+    volumes:
+      - db106-data:/var/lib/mysql
+  redis72:
+    image: redis:7.2
+  tarantool:
+    image: tarantool/tarantool:latest
+  rabbitmq313:
+    image: rabbitmq:3.13-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'        
+  php-fpm:     
+    build: 
+      context: ./src
+      dockerfile: ./../.config/docker/php82/Dockerfile
+    volumes:
+      - ./src:/var/www/html      
+  web:
+    image: nginx:latest
+    ports:
+      - '8080:80'
+    volumes:
+      - ./src:/var/www/html
+      - ./.config/docker/nginx/phpfpm82.conf:/etc/nginx/conf.d/phpfpm82.conf 
+      - ./.config/docker/nginx/project1.conf:/etc/nginx/conf.d/project1.conf
+    links:
+      - php-fpm      
+volumes:
+  db106-data: {  }
+        
