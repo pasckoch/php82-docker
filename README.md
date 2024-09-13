@@ -7,13 +7,13 @@ The idea behind this project is to create a docker architecture that works with 
 
 ## Commands 
 ### Build
-docker-composer up -d --build
+docker compose up -d --build
 ### Start
-if already build: docker-composer up -d
+if already build: docker compose up -d
 ### Stop
-docker-composer down
+docker compose down
 ### Erase volumes
-docker-composer down -v
+docker compose down -v
 
 ## Routes
 Warning, using 8080 port
