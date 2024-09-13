@@ -56,7 +56,9 @@ php82
 ```  
 
 ## Project 2 is Magento 2.4.6
+```
 Build and Start the base at root: docker compose up -d --build
 Idem in src/project2:docker compose up -d --build
 In the container, install M2 as described by Adobe
+```
 
