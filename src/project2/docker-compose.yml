@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  project2:
+    build:
+      context: .
+      dockerfile: ./../../.config/docker/src/project2/Dockerfile
+    volumes:
+      - .:/var/www/html/project2:z
+      - ../../.config/docker/project2/project2-php.ini:/usr/local/etc/php/conf.d/project2-php.ini:z
+    networks:
+      - web_php82
+networks:
+  web_php82:
+    external: true

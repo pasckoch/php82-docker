@@ -1,3 +1,5 @@
 .idea/
 
-src/vendor/
+*/vendor/
+
+auth.json

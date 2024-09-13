@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-fpm as base
 
 RUN apt-get update && apt-get install -y \
 		libfreetype-dev \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-install pdo_mysql \
     && docker-php-ext-install zip \
     && docker-php-ext-install sockets \
+    && docker-php-ext-install opcache \
     && docker-php-ext-enable redis xdebug
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -28,3 +29,5 @@ RUN composer install \
 
 COPY . .
 RUN composer dump-autoload
+
+

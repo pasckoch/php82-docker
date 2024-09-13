@@ -14,31 +14,82 @@ services:
       - '3306:3306'
     volumes:
       - db106-data:/var/lib/mysql
+    networks:
+      - php82
+  sqlite3:
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - sql3-data:/root/db/
+    networks:
+      - php82
   redis72:
     image: redis:7.2
+    networks:
+      - php82
   tarantool:
     image: tarantool/tarantool:latest
+    networks:
+      - php82
   rabbitmq313:
     image: rabbitmq:3.13-management
     ports:
       - '5672:5672'
-      - '15672:15672'        
-  php-fpm:     
-    build: 
+      - '15672:15672'
+    networks:
+      - php82
+  opensearch:
+    image: opensearchproject/opensearch:2.12.0
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - discovery.seed_hosts=opensearch
+      - bootstrap.memory_lock=true
+      - DISABLE_SECURITY_PLUGIN=true
+    networks:
+      - php82
+  php-fpm:
+    build:
       context: ./src
       dockerfile: ./../.config/docker/php82/Dockerfile
     volumes:
-      - ./src:/var/www/html      
+      - ./src:/var/www/html:z
+    networks:
+      - php82
   web:
     image: nginx:latest
     ports:
       - '8080:80'
+    user:
+      root
     volumes:
-      - ./src:/var/www/html
-      - ./.config/docker/nginx/phpfpm82.conf:/etc/nginx/conf.d/phpfpm82.conf 
+      - ./src:/var/www/html:z
+      - ./.config/docker/nginx/phpfpm82.conf:/etc/nginx/conf.d/phpfpm82.conf
       - ./.config/docker/nginx/project1.conf:/etc/nginx/conf.d/project1.conf
+      - ./.config/docker/nginx/project2.conf:/etc/nginx/conf.d/project2.conf
     links:
-      - php-fpm      
+      - php-fpm
+    networks:
+      - php82
+  varnish75:
+    image: varnish:7.5-alpine
+    environment:
+      VARNISH_HTTP_PORT: 7777
+    ports:
+      - '8888:7777'
+    depends_on:
+      web:
+        condition: service_started
+    networks:
+      - php82
 volumes:
-  db106-data: {  }
-        
+  db106-data: { }
+  sql3-data: { }
+networks:
+  php82:
+    name: web_php82
