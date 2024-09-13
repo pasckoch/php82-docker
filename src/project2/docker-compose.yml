@@ -4,7 +4,7 @@ services:
   project2:
     build:
       context: .
-      dockerfile: ./../../.config/docker/src/project2/Dockerfile
+      dockerfile: ../../.config/docker/project2/Dockerfile
     volumes:
       - .:/var/www/html/project2:z
       - ../../.config/docker/project2/project2-php.ini:/usr/local/etc/php/conf.d/project2-php.ini:z
